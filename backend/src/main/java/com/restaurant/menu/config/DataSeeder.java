@@ -50,6 +50,7 @@ public class DataSeeder implements CommandLineRunner {
                 "jlaa.amarajlaa@gmail.com",
                 "Jlaa1357"
         );
+        ensureInstagram("jlaa_amara");
 
         if (adminRepository.existsByEmail("admin@maison.com") || categoryRepository.count() > 0) {
             log.info("Database already seeded — skipping menu seed");
@@ -70,6 +71,16 @@ public class DataSeeder implements CommandLineRunner {
         admin.setPasswordHash(passwordEncoder.encode(rawPassword));
         adminRepository.save(admin);
         log.info("Admin ready: {}", normalized);
+    }
+
+    private void ensureInstagram(String handle) {
+        RestaurantSettings settings = settingsRepository.findAll().stream().findFirst().orElse(null);
+        if (settings == null) {
+            return;
+        }
+        settings.setInstagram(handle);
+        settingsRepository.save(settings);
+        log.info("Instagram set to: {}", handle);
     }
 
     private void seedAdmin() {
@@ -96,7 +107,7 @@ public class DataSeeder implements CommandLineRunner {
         settings.setAddressEn("48 Rothschild Blvd, Tel Aviv");
         settings.setPhone("+972-3-555-0148");
         settings.setWhatsapp("+972501234567");
-        settings.setInstagram("maisonolivea");
+        settings.setInstagram("jlaa_amara");
         settings.setGoogleMapsUrl("https://maps.google.com/?q=Rothschild+Blvd+Tel+Aviv");
         settings.setLogoUrl(null);
         settingsRepository.save(settings);
