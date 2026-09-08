@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { MapPin, MessageCircle, Moon, Sun, Clock, Camera } from 'lucide-react'
 import { menuApi } from '../api/client'
 import { useLanguage } from '../context/LanguageContext'
@@ -356,8 +357,11 @@ export default function MenuPage() {
             </div>
           )}
         </div>
-        <div className="border-t border-line py-4 text-center text-xs text-muted">
-          © {new Date().getFullYear()} Maison Olivéa
+        <div className="border-t border-line py-4 text-center text-xs text-muted flex flex-wrap items-center justify-center gap-3">
+          <span>© {new Date().getFullYear()} Maison Olivéa</span>
+          <Link to="/admin/login" className="text-brand/70 hover:text-brand underline-offset-2 hover:underline">
+            Admin
+          </Link>
         </div>
       </footer>
 
