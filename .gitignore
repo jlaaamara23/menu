@@ -1,0 +1,20 @@
+# Dependencies & build
+**/node_modules/
+**/dist/
+**/target/
+**/data/
+**/uploads/
+*.db
+*.mv.db
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Env / local
+*.local
+.env
+.env.*

@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-cream: #f7f3eb;
+  --color-cream-deep: #efe8dc;
+  --color-green: #1b3a2f;
+  --color-green-soft: #2a5244;
+  --color-gold: #c4a46c;
+  --color-gold-soft: #d4bc8e;
+  --color-text: #1a1a1a;
+  --color-text-muted: #5c5c5c;
+  --color-surface: #ffffff;
+  --color-border: rgba(27, 58, 47, 0.12);
+  --color-shadow: rgba(27, 58, 47, 0.08);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --radius-card: 1rem;
+  --radius-pill: 9999px;
+  --header-offset: 7.5rem;
+}
+
+html.dark {
+  --color-cream: #121a17;
+  --color-cream-deep: #1a2420;
+  --color-green: #c4a46c;
+  --color-green-soft: #d4bc8e;
+  --color-gold: #c4a46c;
+  --color-gold-soft: #e0cda0;
+  --color-text: #f3efe6;
+  --color-text-muted: #a8b0ab;
+  --color-surface: #1a2420;
+  --color-border: rgba(196, 164, 108, 0.18);
+  --color-shadow: rgba(0, 0, 0, 0.35);
+}
+
+@theme inline {
+  --color-cream: var(--color-cream);
+  --color-cream-deep: var(--color-cream-deep);
+  --color-brand: var(--color-green);
+  --color-brand-soft: var(--color-green-soft);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-ink: var(--color-text);
+  --color-muted: var(--color-text-muted);
+  --color-surface: var(--color-surface);
+  --color-elevated: var(--color-surface);
+  --color-line: var(--color-border);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --shadow-soft: 0 4px 24px var(--color-shadow);
+  --shadow-lift: 0 8px 32px var(--color-shadow);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background:
+    radial-gradient(ellipse 120% 80% at 100% -20%, rgba(196, 164, 108, 0.12), transparent 50%),
+    radial-gradient(ellipse 90% 60% at -10% 40%, rgba(27, 58, 47, 0.06), transparent 45%),
+    var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html.dark body {
+  background:
+    radial-gradient(ellipse 120% 80% at 100% -20%, rgba(196, 164, 108, 0.08), transparent 50%),
+    radial-gradient(ellipse 90% 60% at -10% 40%, rgba(196, 164, 108, 0.04), transparent 45%),
+    var(--color-cream);
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: rgba(196, 164, 108, 0.35);
+  color: var(--color-text);
+}
+
+/* Scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 9999px;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.45s ease-out both;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-shimmer,
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-cream-deep) 25%,
+    var(--color-surface) 50%,
+    var(--color-cream-deep) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.shadow-soft {
+  box-shadow: 0 4px 24px var(--color-shadow);
+}
+
+.shadow-lift {
+  box-shadow: 0 8px 32px var(--color-shadow);
+}
+
+.stagger-1 {
+  animation-delay: 0.05s;
+}
+.stagger-2 {
+  animation-delay: 0.1s;
+}
+.stagger-3 {
+  animation-delay: 0.15s;
+}
+.stagger-4 {
+  animation-delay: 0.2s;
+}
+
+/* Hide native number spinners where unwanted */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
