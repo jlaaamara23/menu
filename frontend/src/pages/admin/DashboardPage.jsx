@@ -91,9 +91,9 @@ export default function DashboardPage() {
               {recent.map((p) => (
                 <li key={p.id} className="flex items-center gap-3 px-4 py-3">
                   <div className="size-12 overflow-hidden rounded-xl bg-cream-deep">
-                    {(p.imageUrl || p.imagePath) ? (
+                    {(p.image || p.imageUrl || p.imagePath) ? (
                       <img
-                        src={imageUrl(p.imageUrl || p.imagePath)}
+                        src={imageUrl(p.image || p.imageUrl || p.imagePath)}
                         alt=""
                         className="size-full object-cover"
                       />

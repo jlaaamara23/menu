@@ -29,8 +29,7 @@ const emptyForm = {
   price: '',
   categoryId: '',
   badge: '',
-  imageUrl: '',
-  imagePath: '',
+  image: '',
   isVisible: true,
   isAvailable: true,
 }
@@ -130,8 +129,7 @@ export default function ProductsPage() {
       price: product.price ?? '',
       categoryId: String(product.categoryId || product.category?.id || ''),
       badge: product.badge || '',
-      imageUrl: product.imageUrl || product.imagePath || '',
-      imagePath: product.imagePath || product.imageUrl || '',
+      image: product.image || product.imageUrl || product.imagePath || '',
       isVisible: product.isVisible !== false,
       isAvailable: product.isAvailable !== false,
     })
@@ -144,7 +142,7 @@ export default function ProductsPage() {
     try {
       const res = await uploadApi.upload(file)
       const path = res.url || res.path || res.imageUrl || res.imagePath || ''
-      setForm((f) => ({ ...f, imageUrl: path, imagePath: path }))
+      setForm((f) => ({ ...f, image: path }))
       showToast(t.successUpload)
     } catch (err) {
       showToast(err.message || t.errorGeneric, 'error')
@@ -158,12 +156,20 @@ export default function ProductsPage() {
     setSaving(true)
     try {
       const payload = {
-        ...form,
+        nameAr: form.nameAr,
+        nameEn: form.nameEn,
+        descriptionAr: form.descriptionAr,
+        descriptionEn: form.descriptionEn,
+        ingredientsAr: form.ingredientsAr,
+        ingredientsEn: form.ingredientsEn,
+        allergensAr: form.allergensAr,
+        allergensEn: form.allergensEn,
         price: Number(form.price),
         categoryId: Number(form.categoryId),
         badge: form.badge || null,
-        imageUrl: form.imageUrl || form.imagePath || null,
-        imagePath: form.imagePath || form.imageUrl || null,
+        image: form.image || null,
+        isVisible: form.isVisible,
+        isAvailable: form.isAvailable,
       }
       if (editingId) await productsApi.update(editingId, payload)
       else await productsApi.create(payload)
@@ -283,9 +289,9 @@ export default function ProductsPage() {
                 <tr key={product.id} className="hover:bg-cream/40">
                   <td className="px-4 py-3">
                     <div className="size-12 overflow-hidden rounded-xl bg-cream-deep">
-                      {(product.imageUrl || product.imagePath) && (
+                      {(product.image || product.imageUrl || product.imagePath) && (
                         <img
-                          src={imageUrl(product.imageUrl || product.imagePath)}
+                          src={imageUrl(product.image || product.imageUrl || product.imagePath)}
                           alt=""
                           className="size-full object-cover"
                         />
@@ -516,9 +522,9 @@ export default function ProductsPage() {
                   disabled={uploading}
                   className="text-sm"
                 />
-                {(form.imageUrl || form.imagePath) && (
+                {(form.image || form.imageUrl || form.imagePath) && (
                   <img
-                    src={imageUrl(form.imageUrl || form.imagePath)}
+                    src={imageUrl(form.image || form.imageUrl || form.imagePath)}
                     alt={t.uploadPreview}
                     className="h-24 w-24 rounded-xl object-cover border border-line"
                   />

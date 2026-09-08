@@ -26,7 +26,7 @@ export function ProductModal({ product, category, open, onClose }) {
     >
       <div className="space-y-5">
         <SoftImage
-          src={product.imageUrl || product.image}
+          src={product.image || product.imageUrl}
           alt={name}
           className="rounded-2xl"
           aspect="aspect-[16/10]"

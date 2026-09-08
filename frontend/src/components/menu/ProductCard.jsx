@@ -64,7 +64,7 @@ export default function ProductCard({ product, categoryName, onClick, style }) {
         )}
       >
         <ProductImage
-          src={product.imageUrl || product.imagePath}
+          src={product.image || product.imageUrl || product.imagePath}
           alt={name}
           className="size-24 shrink-0 rounded-xl"
         />
@@ -95,7 +95,7 @@ export default function ProductCard({ product, categoryName, onClick, style }) {
       >
         <div className="relative">
           <ProductImage
-            src={product.imageUrl || product.imagePath}
+            src={product.image || product.imageUrl || product.imagePath}
             alt={name}
             className="aspect-[4/3] w-full"
           />
@@ -140,7 +140,7 @@ export function ProductModal({ product, categoryName, open, onClose }) {
   const ingredients = localized(product.ingredientsAr, product.ingredientsEn)
   const allergens = localized(product.allergensAr, product.allergensEn)
   const available = product.isAvailable !== false
-  const url = imageUrl(product.imageUrl || product.imagePath)
+  const url = imageUrl(product.image || product.imageUrl || product.imagePath)
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" role="dialog" aria-modal="true">

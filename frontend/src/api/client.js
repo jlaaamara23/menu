@@ -218,3 +218,5 @@ export function imageUrl(path) {
   const p = path.startsWith('/') ? path : `/${path}`
   return `${API_BASE}${p}`
 }
+
+export const mediaUrl = imageUrl

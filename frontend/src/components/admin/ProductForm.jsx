@@ -20,7 +20,7 @@ const emptyForm = {
   price: '',
   categoryId: '',
   badge: '',
-  imageUrl: '',
+  image: '',
   isVisible: true,
   isAvailable: true,
   sortOrder: 0,
@@ -50,7 +50,7 @@ export function ProductFormModal({ open, onClose, product, categories, onSaved }
         price: product.price ?? '',
         categoryId: product.categoryId || product.category?.id || '',
         badge: product.badge || '',
-        imageUrl: product.imageUrl || product.image || '',
+        image: product.image || product.imageUrl || '',
         isVisible: product.isVisible !== false,
         isAvailable: product.isAvailable !== false,
         sortOrder: product.sortOrder ?? 0,
@@ -72,7 +72,7 @@ export function ProductFormModal({ open, onClose, product, categories, onSaved }
     try {
       const res = await adminApi.upload(file)
       const url = res.url || res.path || res.imageUrl || res.location
-      if (url) set('imageUrl', url)
+      if (url) set('image', url)
       toast.success(t.successUpload)
     } catch {
       toast.error(t.errorGeneric)
@@ -90,11 +90,21 @@ export function ProductFormModal({ open, onClose, product, categories, onSaved }
     }
     setLoading(true)
     const body = {
-      ...form,
+      nameAr: form.nameAr,
+      nameEn: form.nameEn,
+      descriptionAr: form.descriptionAr,
+      descriptionEn: form.descriptionEn,
+      ingredientsAr: form.ingredientsAr,
+      ingredientsEn: form.ingredientsEn,
+      allergensAr: form.allergensAr,
+      allergensEn: form.allergensEn,
       price: Number(form.price),
       sortOrder: Number(form.sortOrder) || 0,
       badge: form.badge || null,
       categoryId: form.categoryId,
+      image: form.image || null,
+      isVisible: form.isVisible,
+      isAvailable: form.isAvailable,
     }
     try {
       if (product?.id) await adminApi.updateProduct(product.id, body)
@@ -215,8 +225,8 @@ export function ProductFormModal({ open, onClose, product, categories, onSaved }
             <div className="flex-1 min-w-[200px]">
               <Input
                 label={t.image}
-                value={form.imageUrl}
-                onChange={(e) => set('imageUrl', e.target.value)}
+                value={form.image}
+                onChange={(e) => set('image', e.target.value)}
               />
             </div>
             <input
@@ -235,9 +245,9 @@ export function ProductFormModal({ open, onClose, product, categories, onSaved }
               {t.uploadImage}
             </Button>
           </div>
-          {form.imageUrl && (
+          {form.image && (
             <SoftImage
-              src={form.imageUrl}
+              src={form.image}
               className="max-w-xs rounded-2xl"
               aspect="aspect-video"
             />
