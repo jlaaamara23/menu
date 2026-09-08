@@ -1,6 +1,16 @@
 const TOKEN_KEY = 'maison-olivea-token'
 const USER_KEY = 'maison-olivea-user'
 
+/** API origin in production (e.g. https://resturantmenu-z2eq.onrender.com). Empty = same origin / Vite proxy. */
+export const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+
+export function apiUrl(path) {
+  if (!path) return API_BASE || ''
+  if (path.startsWith('http://') || path.startsWith('https://')) return path
+  const p = path.startsWith('/') ? path : `/${path}`
+  return `${API_BASE}${p}`
+}
+
 export function getToken() {
   try {
     return localStorage.getItem(TOKEN_KEY)
@@ -87,7 +97,7 @@ export async function apiFetch(path, options = {}) {
     if (token) headers.Authorization = `Bearer ${token}`
   }
 
-  const res = await fetch(path, {
+  const res = await fetch(apiUrl(path), {
     ...rest,
     headers,
     body: body instanceof FormData || typeof body === 'string' || body == null
@@ -205,5 +215,6 @@ export function imageUrl(path) {
   if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
     return path
   }
-  return path.startsWith('/') ? path : `/${path}`
+  const p = path.startsWith('/') ? path : `/${path}`
+  return `${API_BASE}${p}`
 }
