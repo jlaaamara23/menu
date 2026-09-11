@@ -12,14 +12,14 @@ function ProductImage({ src, alt, className }) {
 
   if (!url || error) {
     return (
-      <div className={cn('flex items-center justify-center bg-cream-deep text-muted', className)}>
+      <div className={cn('menu-item-card__media flex items-center justify-center text-muted', className)}>
         <span className="text-xs">—</span>
       </div>
     )
   }
 
   return (
-    <div className={cn('relative overflow-hidden bg-cream-deep', className)}>
+    <div className={cn('menu-item-card__media', className)}>
       {!loaded && <Skeleton className="absolute inset-0 rounded-none" />}
       <img
         src={url}
@@ -27,7 +27,10 @@ function ProductImage({ src, alt, className }) {
         loading="lazy"
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
-        className={cn('size-full object-cover', loaded ? 'opacity-100' : 'opacity-0')}
+        className={cn(
+          'absolute inset-0 size-full object-cover transition-opacity',
+          loaded ? 'opacity-100' : 'opacity-0',
+        )}
       />
     </div>
   )
@@ -43,28 +46,24 @@ export default function ProductCard({ product, onClick }) {
     <button
       type="button"
       onClick={() => onClick?.(product)}
-      className={cn(
-        'flex w-full gap-3 border-b border-line py-4 text-start transition hover:bg-cream-deep/40 sm:gap-4',
-        !available && 'opacity-55',
-      )}
+      className={cn('menu-item-card', !available && 'is-unavailable')}
     >
       <ProductImage
         src={product.image || product.imageUrl || product.imagePath}
         alt={name}
-        className="size-20 shrink-0 rounded-lg sm:size-24"
       />
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="font-display text-lg font-semibold leading-snug text-ink sm:text-xl">
-            {name}
-          </h3>
-          <span className="shrink-0 pt-0.5 text-sm font-semibold text-brand sm:text-base">
-            {formatPrice(product.price)}
-          </span>
+      <div className="menu-item-card__body">
+        {product.badge && (
+          <div className="menu-item-card__badges">
+            <Badge type={product.badge} />
+          </div>
+        )}
+        <div className="menu-item-card__title-row">
+          <h3 className="menu-item-card__title">{name}</h3>
+          <span className="menu-item-card__price">{formatPrice(product.price)}</span>
         </div>
-        {product.badge && <Badge type={product.badge} className="w-fit" />}
-        {desc && <p className="line-clamp-2 text-sm leading-relaxed text-muted">{desc}</p>}
-        {!available && <span className="text-xs text-gold">{t.unavailable}</span>}
+        {desc && <p className="menu-item-card__desc">{desc}</p>}
+        {!available && <span className="menu-item-card__meta">{t.unavailable}</span>}
       </div>
     </button>
   )
@@ -104,7 +103,7 @@ export function ProductModal({ product, categoryName, open, onClose }) {
         tabIndex={-1}
         className="relative z-10 flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl bg-surface sm:rounded-2xl"
       >
-        <div className="relative aspect-[16/10] w-full shrink-0 bg-cream-deep">
+        <div className="relative aspect-square w-full shrink-0 bg-cream-deep sm:aspect-[16/10]">
           {url ? (
             <img src={url} alt={name} className="size-full object-cover" />
           ) : (
@@ -119,19 +118,17 @@ export function ProductModal({ product, categoryName, open, onClose }) {
           </button>
         </div>
         <div className="overflow-y-auto p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h2 className="font-display text-2xl font-semibold text-ink">{name}</h2>
-              {categoryName && <p className="mt-1 text-sm text-muted">{categoryName}</p>}
-            </div>
-            <p className="font-semibold text-brand">{formatPrice(product.price)}</p>
-          </div>
-          <p className="mt-2 text-xs text-muted">{available ? t.available : t.unavailable}</p>
           {product.badge && (
-            <div className="mt-2">
+            <div className="menu-item-card__badges mb-2">
               <Badge type={product.badge} />
             </div>
           )}
+          <div className="menu-item-card__title-row">
+            <h2 className="menu-item-card__title text-2xl">{name}</h2>
+            <p className="menu-item-card__price text-lg">{formatPrice(product.price)}</p>
+          </div>
+          {categoryName && <p className="mt-1 text-sm text-muted">{categoryName}</p>}
+          <p className="mt-2 text-xs text-muted">{available ? t.available : t.unavailable}</p>
           {desc && <p className="mt-4 text-sm leading-relaxed text-muted">{desc}</p>}
           {ingredients && (
             <div className="mt-4">

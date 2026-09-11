@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import CategoryNav from '../components/menu/CategoryNav'
 import ProductCard, { ProductModal } from '../components/menu/ProductCard'
+import QuickMenu from '../components/menu/QuickMenu'
 import { MenuSkeleton } from '../components/ui/Skeleton'
 import { cn } from '../utils/helpers'
 
@@ -127,7 +128,7 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="min-h-svh bg-cream">
+    <div className="min-h-svh bg-cream pb-24">
       <header className="border-b border-line">
         <div className="mx-auto max-w-3xl px-4 py-5 sm:px-6">
           <div className="mb-5 flex items-center justify-between gap-3">
@@ -174,7 +175,7 @@ export default function MenuPage() {
       />
 
       <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
-        <div className="space-y-10">
+        <div className="menu-feed">
           {categories.map((cat) => {
             const products = (cat.products || []).filter((p) => p.isVisible !== false)
             const catName = localized(cat.nameAr, cat.nameEn)
@@ -186,21 +187,16 @@ export default function MenuPage() {
                 ref={(node) => {
                   sectionRefs.current[cat.id] = node
                 }}
-                className="scroll-mt-20"
+                className="menu-feed__section"
+                aria-label={catName}
               >
-                <h2 className="font-display text-xl font-semibold text-ink sm:text-2xl">
-                  {catName}
-                </h2>
-                {(cat.descriptionAr || cat.descriptionEn) && (
-                  <p className="mt-1 text-sm text-muted">
-                    {localized(cat.descriptionAr, cat.descriptionEn)}
-                  </p>
-                )}
+                {/* Category titles live in sticky nav + quick menu to reduce feed clutter */}
+                <h2 className="sr-only">{catName}</h2>
 
                 {products.length === 0 ? (
-                  <p className="mt-4 py-8 text-center text-sm text-muted">{t.emptyCategory}</p>
+                  <p className="py-8 text-center text-sm text-muted">{t.emptyCategory}</p>
                 ) : (
-                  <div className="mt-2">
+                  <div className="menu-feed__list">
                     {products.map((product) => (
                       <ProductCard
                         key={product.id}
@@ -275,6 +271,12 @@ export default function MenuPage() {
           </div>
         </div>
       </footer>
+
+      <QuickMenu
+        categories={categories}
+        activeId={activeCategory}
+        onSelect={scrollToCategory}
+      />
 
       <ProductModal
         product={selected}

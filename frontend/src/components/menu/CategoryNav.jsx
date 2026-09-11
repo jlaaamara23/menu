@@ -17,12 +17,8 @@ export default function CategoryNav({ categories, activeId, onSelect }) {
   if (!categories?.length) return null
 
   return (
-    <nav
-      ref={containerRef}
-      className="sticky top-0 z-30 border-b border-line bg-cream"
-      aria-label="Categories"
-    >
-      <div className="hide-scrollbar mx-auto flex max-w-3xl gap-1 overflow-x-auto px-4 py-2 sm:px-6">
+    <nav className="menu-nav" aria-label="Categories">
+      <div ref={containerRef} className="menu-nav__track hide-scrollbar">
         {categories.map((cat) => {
           const active = cat.id === activeId
           return (
@@ -33,12 +29,8 @@ export default function CategoryNav({ categories, activeId, onSelect }) {
                 itemRefs.current[cat.id] = node
               }}
               onClick={() => onSelect?.(cat.id)}
-              className={cn(
-                'shrink-0 border-b-2 px-3 py-2.5 text-sm transition',
-                active
-                  ? 'border-brand font-semibold text-brand'
-                  : 'border-transparent text-muted hover:text-ink',
-              )}
+              aria-current={active ? 'true' : undefined}
+              className={cn('menu-nav__item', active && 'is-active')}
             >
               {localized(cat.nameAr, cat.nameEn)}
             </button>
