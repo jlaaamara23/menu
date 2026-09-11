@@ -262,9 +262,9 @@ html.dark .menu-nav__item.is-active {
 
 .menu-item-card__title-row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.65rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
 }
 
 .menu-item-card__title {
@@ -283,7 +283,6 @@ html.dark .menu-nav__item.is-active {
 }
 
 .menu-item-card__price {
-  flex-shrink: 0;
   font-size: 0.9375rem;
   font-weight: 700;
   line-height: 1.3;
