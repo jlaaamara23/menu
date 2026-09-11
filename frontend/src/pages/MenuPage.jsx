@@ -187,10 +187,15 @@ export default function MenuPage() {
                   sectionRefs.current[cat.id] = node
                 }}
                 className="menu-feed__section"
-                aria-label={catName}
+                aria-labelledby={`category-title-${cat.id}`}
               >
-                {/* Category titles live in sticky nav + quick menu to reduce feed clutter */}
-                <h2 className="sr-only">{catName}</h2>
+                {/* Shown once at the start of each category; sticks while you browse that section */}
+                <h2
+                  id={`category-title-${cat.id}`}
+                  className="menu-feed__heading"
+                >
+                  {catName}
+                </h2>
 
                 {products.length === 0 ? (
                   <p className="py-8 text-center text-sm text-muted">{t.emptyCategory}</p>
