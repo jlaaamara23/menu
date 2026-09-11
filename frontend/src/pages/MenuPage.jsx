@@ -89,12 +89,11 @@ export default function MenuPage() {
     scrollingToRef.current = true
     const el = sectionRefs.current[id]
     if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 72
-      window.scrollTo({ top, behavior: 'smooth' })
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
     window.setTimeout(() => {
       scrollingToRef.current = false
-    }, 700)
+    }, 900)
   }
 
   const brandName = localized(
