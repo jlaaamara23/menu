@@ -382,7 +382,7 @@ html.dark .badge-chip--vegetarian {
 .menu-feed {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 2rem;
 }
 
 .menu-feed__section {
@@ -392,16 +392,16 @@ html.dark .badge-chip--vegetarian {
 .menu-feed__list {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1.125rem;
 }
 
 @media (min-width: 640px) {
   .menu-feed {
-    gap: 2.25rem;
+    gap: 2.5rem;
   }
 
   .menu-feed__list {
-    gap: 1.125rem;
+    gap: 1.35rem;
   }
 }
 
